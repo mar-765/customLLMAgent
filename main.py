@@ -6,7 +6,11 @@ from helper_constants.loguru import Formats as loguruFormts
 
 from llm import LLM,clientPresets,modelPresets
 
-import sys
+import sys,os
+
+import dotenv
+
+dotenv.load_dotenv(".env")
 
 
 
@@ -41,7 +45,7 @@ def chat_clear():
 
 @app.middleware("http")
 async def auth(request:Request,call_next):
-    if request.headers.get("Authorization") != "Bearer f202bc8e18ce0c17deeeedbcf0360e4249dddaa9f784855e5b425a1d39763b1f99504dddb20d94d001f94e6af07568253e46365bc842ddab8af96d8ef07a3fdb":
+    if request.headers.get("Authorization") != f"Bearer {os.environ.get("API_KEY")}":
         return Response("Unauthorized", status_code=401)
     
     return await call_next(request)
