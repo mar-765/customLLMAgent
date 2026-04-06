@@ -19,7 +19,10 @@ import sys
 
 
 
-
+try:
+    load_dotenv("/etc/secrets/.env")
+except:
+    pass
 
 load_dotenv("../config/.env")
 colorama.init(True)

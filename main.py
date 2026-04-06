@@ -10,6 +10,10 @@ import sys,os
 
 import dotenv
 
+try:
+    dotenv.load_dotenv("/etc/secrets/.env")
+except:
+    pass
 dotenv.load_dotenv(".env")
 
 
