@@ -19,29 +19,26 @@ import sys
 
 
 
-try:
-    load_dotenv("/etc/secrets/.env")
-except:
-    pass
-
-load_dotenv("../config/.env")
+load_dotenv(".env")
 colorama.init(True)
 
 
-
+def readFile(file):
+    with open(file,"r") as f:
+        return f.read()
 
 
 @dataclass
 class clientPresets:
     groq = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),  # This is the default and can be omitted
+        api_key=readFile("API_KEY.txt"),  # Fro anyone askinf them selves "Why should someone do this like that" or "Why dosent he use .env files", because it didnt work. And I am to lazy to find a proper fix (And it works like this)
     )
 
 @dataclass
 class modelPresets:
     groq_openai_gpt_oss_20b =  "openai/gpt-oss-20b"
     
- 
+#
     
 class LLM:
     

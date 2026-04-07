@@ -16,14 +16,12 @@ except:
     pass
 dotenv.load_dotenv(".env")
 
-
-
-logger.remove()
-logger.add(sys.stderr,format=loguruFormts.defualt_extra)
-
 llm = LLM(client=clientPresets.groq,
           model=modelPresets.groq_openai_gpt_oss_20b,
           )
+
+logger.remove()
+logger.add(sys.stderr,format=loguruFormts.defualt_extra)
 
 
 class LLMQuestion(BaseModel):
@@ -38,6 +36,7 @@ def root():
 
 @app.post("/ask")
 def query(q:LLMQuestion):
+
     answer = llm.call_with_tools(q.text)
     return {"reply":answer}
 
@@ -49,6 +48,7 @@ def chat_clear():
 
 @app.middleware("http")
 async def auth(request:Request,call_next):
+    
     if request.headers.get("Authorization") != f"Bearer {os.environ.get("API_KEY")}":
         return Response("Unauthorized", status_code=401)
     
